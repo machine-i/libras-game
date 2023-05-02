@@ -1,0 +1,8 @@
+# Dentro do while e abaixo de time_now
+time_reg = TIMER - time_now
+
+# Alterar condição de quit_window
+if time_reg <= -1:
+
+# Alterar variável que será exibida
+time_text = str(time_reg)
