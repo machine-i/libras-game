@@ -1,6 +1,6 @@
 # libras-game
 
-Baixe os pacotes e instale quaiquer versões 3 do python.
+Baixe os pacotes e instale quaisquer versões 3 do python.
 
 Com o python no PC, terá o pacote pip também instalado. Use-o para instalar o módulo "pygame".
 
