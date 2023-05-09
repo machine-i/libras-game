@@ -6,7 +6,7 @@ from os import walk
 TIMER = 60
 START = False
 START_QUESTIONS = False
-LIFE = 3  # Chances de errar
+LIFE = 10  # Chances de errar
 print(LIFE)  # Apenas para debug
 
 pygame.init()
@@ -65,7 +65,8 @@ life_0_img = pygame.transform.smoothscale(life_0_img, (int(w_life_0*0.5), int(h_
 
 # Declaração das variáveis de Hit Point e de posição dos coraçõezinhos
 hp = LIFE
-pos_life = {'x': [3, 39, 75], 'y': 3}
+pos_x_life = [x for x in range(3, (36*(LIFE-1)+4), 36)]  # Gera posições que iniciam em 3 e variam num espaço de 36. A equação do término do "range" usa do produto entre o step de 36 e o número de vidas -1, somando da posição do primeiro coraçãozinho +1 (porque o stop do "range" não é retornado).
+pos_life = {'x': pos_x_life, 'y': 3}
 
 # Função responsável pela plotagem das imagens dos coraçõezinhos, fazendo a análise das quantidades de chances restantes
 def life_system(hp):
