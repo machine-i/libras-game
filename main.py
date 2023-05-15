@@ -1,6 +1,6 @@
 import pygame
 import sys
-from os import walk
+from os import walk, path
 
 # Declaração de super variáveis
 TIMER = 60
@@ -35,33 +35,32 @@ color = color_passive
 active = False
 error = False
 
-# Definições das respostas
+# Definições das respostas e das imagens das questões
 nomes_sinal = []
-for _, _, i in walk('/home/rene/Documentos/rene/_myProjects/libras_game/sinais_img'):
+sinais = []
+for a, b, i in walk('/home/rene/Documentos/rene/_myProjects/libras_game/sinais_img'):
+    for c in i:
+        sinais.append(path.join(a, c))
     nomes_sinal = i
 
-# Definições das imagens das questões
-sinais = [f'/home/rene/Documentos/rene/_myProjects/libras_game/sinais_img/{sinal_img}' for sinal_img in nomes_sinal]
 atual_sinal = 0  # Variável responsável pelo relacionamento entre a resposta e a imagem exibida
+resp = nomes_sinal[atual_sinal][:-4]
 sinal = pygame.image.load(sinais[atual_sinal]).convert_alpha()
 w, h = sinal.get_size()
 sinal = pygame.transform.smoothscale(sinal, (int(w*2), int(h*2)))
-resp = nomes_sinal[atual_sinal][:-4]
 pos_sinal = (160, 50)
 
-# Definição da música de fundo
+# Definição da música de fundo da entrada
 pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/minecraft.mp3')
 pygame.mixer.music.play()  # loops=-1 (padrão) => faz a música se repetir indefinidamente
 
-# Definição da imagem do coraçãozinho cheio
-life_1_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/life_img_1.jpg').convert_alpha()
-w_life_1, h_life_1 = life_1_img.get_size()
-life_1_img = pygame.transform.smoothscale(life_1_img, (int(w_life_1*0.5), int(h_life_1*0.5)))
-
-# Definição da imagem do coraçãozinho vazio
-life_0_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/life_img_0.jpg').convert_alpha()
-w_life_0, h_life_0 = life_0_img.get_size()
-life_0_img = pygame.transform.smoothscale(life_0_img, (int(w_life_0*0.5), int(h_life_0*0.5)))
+# Definição da imagem do coraçãozinho
+life_img = []
+for f in range(2):
+    img_l = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/life_img_'+str(f)+'.jpg').convert_alpha()
+    w_life, h_life = img_l.get_size()
+    img_l = pygame.transform.smoothscale(img_l, (int(w_life*0.5), int(h_life*0.5)))
+    life_img.append(img_l)
 
 # Declaração das variáveis de Hit Point e de posição dos coraçõezinhos
 hp = LIFE
@@ -72,9 +71,9 @@ pos_life = {'x': pos_x_life, 'y': 3}
 def life_system(hp):
     dead = LIFE - hp
     for i in range(hp):
-        screen.blit(life_1_img, (pos_life['x'][i], pos_life['y']))
+        screen.blit(life_img[1], (pos_life['x'][i], pos_life['y']))
     for j in range(1, dead + 1):
-        screen.blit(life_0_img, (pos_life['x'][-j], pos_life['y']))
+        screen.blit(life_img[0], (pos_life['x'][-j], pos_life['y']))
 
 # Função responsável por fechar o game
 def quitGame():
