@@ -8,7 +8,7 @@ No terminal, navegue até os arquivos e execute o "main.py".
 
 # Ativando life cheat no game
 
-Abrindo o "main.py" em um editor de textos, pode-se mudar o estado da variável "CHEAT" para "True".
+Abrindo o "main.py" em um editor de textos, pode-se mudar o estado da variável ```CHEAT``` para ```True```.
 
 ```CHEAT = True```
 
