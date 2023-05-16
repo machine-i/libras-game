@@ -6,7 +6,7 @@ from os import walk, path
 TIMER = 60
 START = False
 START_QUESTIONS = False
-CHEAT = True  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
+CHEAT = False  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
 LIFE = 3  # Vidas
 print(LIFE)  # Apenas para debug
 
