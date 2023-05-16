@@ -6,7 +6,8 @@ from os import walk, path
 TIMER = 60
 START = False
 START_QUESTIONS = False
-LIFE = 10  # Chances de errar
+CHEAT = True  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
+LIFE = 3  # Vidas
 print(LIFE)  # Apenas para debug
 
 pygame.init()
@@ -196,6 +197,10 @@ while True:
                     pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/negative.wav')
                     pygame.mixer.music.play()
                     error = True
+            # Ao teclar em SHIFT, ganha uma vida >> Deve mudar o estado da variável 'CHEAT' para 'True'
+            if (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) and CHEAT and active:
+                if hp != 3:
+                    hp += 1
 
             # Sistema de deletar caracteres no retângulo principal
             if event.key == pygame.K_BACKSPACE and active:
