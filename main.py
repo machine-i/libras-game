@@ -167,9 +167,9 @@ while True:
             else:
                 active = False
 
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and active:
             # Faz a verificação da resposta
-            if event.key == pygame.K_SPACE and active:
+            if event.key == pygame.K_SPACE:
                 if user_text.strip() == resp:  # Se estiver correta, ele vai para a próxima questão
                     atual_sinal += 1
                     try:
@@ -198,16 +198,16 @@ while True:
                     pygame.mixer.music.play()
                     error = True
             # Ao teclar em SHIFT, ganha uma vida >> Deve mudar o estado da variável 'CHEAT' para 'True'
-            if (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) and CHEAT and active:
+            if (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) and CHEAT:
                 if hp != 3:
                     hp += 1
 
             # Sistema de deletar caracteres no retângulo principal
-            if event.key == pygame.K_BACKSPACE and active:
+            if event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
 
             # Sistema de adicionar caracteres no retângulo principal
-            elif active and event.key != pygame.K_SPACE:
+            elif event.key != pygame.K_SPACE:
                 pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/snap_lofi.wav')
                 pygame.mixer.music.play()
                 user_text += event.unicode
