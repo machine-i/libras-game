@@ -7,7 +7,7 @@ TIMER = 60
 START = False
 START_QUESTIONS = False
 CHEAT = True  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
-LIFE = 10  # Vidas
+LIFE = 5  # Vidas
 print(LIFE)  # Apenas para debug
 
 pygame.init()
