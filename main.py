@@ -6,8 +6,8 @@ from os import walk, path
 TIMER = 60
 START = False
 START_QUESTIONS = False
-CHEAT = False  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
-LIFE = 3  # Vidas
+CHEAT = True  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
+LIFE = 10  # Vidas
 print(LIFE)  # Apenas para debug
 
 pygame.init()
@@ -199,7 +199,7 @@ while True:
                     error = True
             # Ao teclar em SHIFT, ganha uma vida >> Deve mudar o estado da variável 'CHEAT' para 'True'
             if (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) and CHEAT:
-                if hp != 3:
+                if hp < LIFE:
                     hp += 1
 
             # Sistema de deletar caracteres no retângulo principal
