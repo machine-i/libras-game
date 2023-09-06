@@ -1,13 +1,17 @@
 import pygame
 import sys
-from os import walk, path
+from os import walk, path, getcwd
+
+DIR = getcwd()
+bar = '/' if '/' in DIR else '\\'
+DIR += bar
 
 # Declaração de super variáveis
 TIMER = 60
 START = False
 START_QUESTIONS = False
-CHEAT = True  # Mude para 'True', caso queira aumentar as vidas teclando SHIFT
-LIFE = 5  # Vidas
+CHEAT = True  # 'True', caso queira aumentar as vidas teclando SHIFT
+LIFE = 10  # Vidas
 print(LIFE)  # Apenas para debug
 
 pygame.init()
@@ -25,7 +29,7 @@ user_text = ''
 time_text = ''
 
 # Definições de retângulos do pygame
-input_rect = pygame.Rect(250, 250, 140, 32)
+input_rect = pygame.Rect(250, 400, 140, 32)
 time_rect = pygame.Rect(50, 400, 50, 50)
 
 # Definições de cor do retângulo principal
@@ -39,7 +43,7 @@ error = False
 # Definições das respostas e das imagens das questões
 nomes_sinal = []
 sinais = []
-for a, b, i in walk('/home/rene/Documentos/rene/_myProjects/libras_game/sinais_img'):
+for a, b, i in walk(DIR + 'sinais_img'):
     for c in i:
         sinais.append(path.join(a, c))
     nomes_sinal = i
@@ -52,13 +56,13 @@ sinal = pygame.transform.smoothscale(sinal, (int(w*2), int(h*2)))
 pos_sinal = (160, 50)
 
 # Definição da música de fundo da entrada
-pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/minecraft.mp3')
+pygame.mixer.music.load(DIR + 'musics' + bar + 'minecraft.mp3')
 pygame.mixer.music.play()  # loops=-1 (padrão) => faz a música se repetir indefinidamente
 
 # Definição da imagem do coraçãozinho
 life_img = []
 for f in range(2):
-    img_l = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/life_img_'+str(f)+'.jpg').convert_alpha()
+    img_l = pygame.image.load(DIR + 'img' + bar + 'life_img_'+str(f)+'.jpg').convert_alpha()
     w_life, h_life = img_l.get_size()
     img_l = pygame.transform.smoothscale(img_l, (int(w_life*0.5), int(h_life*0.5)))
     life_img.append(img_l)
@@ -82,7 +86,7 @@ def quitGame():
     sys.exit()
 
 # Definições e verifição sobre o início do game
-start_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/start_img_game.png')
+start_img = pygame.image.load(DIR + 'img' + bar + 'start_img_game.png')
 pos_start = (25, 0)
 def start():
     global START
@@ -91,15 +95,15 @@ def start():
             if event.type == pygame.QUIT:
                 quitGame()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     START = True  # Caso o usuário clique no espaço, o programa sai do loop local infinito e continua no loop principal
 
         screen.blit(start_img, pos_start)
         pygame.display.flip()
         clock.tick(60)
 
-answers_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/answers_img_game.png')
-pos_answers = (60, 0)
+answers_img = pygame.image.load(DIR + 'img' + bar + 'answers_img_game.png')
+pos_answers = (0, 0)
 def answers():
     global START_QUESTIONS
     while not START_QUESTIONS:
@@ -107,11 +111,11 @@ def answers():
             if event.type == pygame.QUIT:
                 quitGame()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     # Tira a música de fundo do início
                     pygame.mixer.music.unload()
                     # Definição do efeito quando começa o game
-                    pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/go_start.wav')
+                    pygame.mixer.music.load(DIR + 'musics' + bar + 'go_start.wav')
                     pygame.mixer.music.play()
 
                     START_QUESTIONS = True  # Caso o usuário clique no espaço, o programa sai do loop local infinito e continua no loop principal
@@ -121,8 +125,8 @@ def answers():
         clock.tick(60)
 
 # Definições e verifição sobre o fim do game (basicamente plota uma imagem na tela e fica esperando o usuário clicar no espaço ou no "X" da janela)
-end_0_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/end_img_game.png')
-end_1_img = pygame.image.load('/home/rene/Documentos/rene/_myProjects/libras_game/img/win_img_game.png')
+end_0_img = pygame.image.load(DIR + 'img' + bar + 'end_img_game.png')
+end_1_img = pygame.image.load(DIR + 'img' + bar + 'win_img_game.png')
 pos_end = (25, 0)
 def end(final=0):  # A imagem de end_0_img é a padrão, caso nada seja passado por parâmetro
     while True:
@@ -130,7 +134,7 @@ def end(final=0):  # A imagem de end_0_img é a padrão, caso nada seja passado 
             if event.type == pygame.QUIT:
                 quitGame()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     quitGame()
 
         if final == 1:  # Plota a imagem de vitória
@@ -169,14 +173,14 @@ while True:
 
         if event.type == pygame.KEYDOWN and active:
             # Faz a verificação da resposta
-            if event.key == pygame.K_SPACE:
-                if user_text.strip() == resp:  # Se estiver correta, ele vai para a próxima questão
+            if event.key == pygame.K_RETURN:
+                if user_text.strip().lower() == resp.lower():  # Se estiver correta, ele vai para a próxima questão
                     atual_sinal += 1
                     try:
                         sinal = pygame.image.load(sinais[atual_sinal]).convert_alpha()
                     except IndexError:
                         # Definição do efeito de vitória
-                        pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/win.wav')
+                        pygame.mixer.music.load(DIR + 'musics' + bar + 'win.wav')
                         pygame.mixer.music.play()
                         end(1)
                     w, h = sinal.get_size()
@@ -189,12 +193,12 @@ while True:
                     print(hp)
                     if hp <= 0:  # Encerra o game quando as chances acabam
                         # Definição do efeito de derrota
-                        pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/defeat.wav')
+                        pygame.mixer.music.load(DIR + 'musics' + bar + 'defeat.wav')
                         pygame.mixer.music.play()
                         end(0)
                     # Definição do efeito de resposta incorreta
                     pygame.mixer.music.unload()
-                    pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/negative.wav')
+                    pygame.mixer.music.load(DIR + 'musics' + bar + 'negative.wav')
                     pygame.mixer.music.play()
                     error = True
             # Ao teclar em SHIFT, ganha uma vida >> Deve mudar o estado da variável 'CHEAT' para 'True'
@@ -207,8 +211,8 @@ while True:
                 user_text = user_text[:-1]
 
             # Sistema de adicionar caracteres no retângulo principal
-            elif event.key != pygame.K_SPACE:
-                pygame.mixer.music.load('/home/rene/Documentos/rene/_myProjects/libras_game/musics/snap_lofi.wav')
+            elif event.key != pygame.K_RETURN:
+                pygame.mixer.music.load(DIR + 'musics' + bar + 'snap_lofi.wav')
                 pygame.mixer.music.play()
                 user_text += event.unicode
 
