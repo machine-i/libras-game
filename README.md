@@ -6,7 +6,7 @@ Com o python no PC, terá o pacote pip também instalado. Use-o para instalar o 
 
 No terminal, navegue até os arquivos e execute o "main.py".
 
--> Os arquivos devem estar no mesmo diretório.
+* Os arquivos devem estar no mesmo diretório.
 
 # Ativando life cheat no game
 
